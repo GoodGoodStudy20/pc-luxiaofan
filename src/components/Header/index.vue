@@ -1,15 +1,116 @@
 <template>
-  <div>
-      Header....
-  </div>
+  <header class="header">
+    <div class="top">
+      <div class="container-list">
+        <div class="login-list">
+          <p>尚品汇欢迎您！</p>
+          <p>
+            <span>请</span>
+            <a href="" class="login-list-login">登录</a>
+            <a href="" class="login-list-register">免费注册</a>
+          </p>
+        </div>
+        <div class="type-list">
+          <a href="">我的订单</a>
+          <a href="">我的购物车</a>
+          <a href="">我的尚品汇</a>
+          <a href="">尚品汇会员</a>
+          <a href="">企业采购</a>
+          <a href="">关注尚品汇</a>
+          <a href="">合作招商</a>
+          <a href="">商家后台</a>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+        <div class="bottom-logo">
+          <a href=""><img src="./images/logo.png"/></a>
+        </div>
+        <div class="bottom-search">
+            <form>
+          <input type="text" />
+          <button>搜索</button>
+          </form>
+        </div>
+      </div>
+  </header>
 </template>
 
 <script>
 export default {
-name:"Header",
-}
+  name: "Header",
+};
 </script>
 
 <style lang="less">
+.header {
+  min-width: 1200px;
+}
+.top{
+background-color: #eaeaea;
+}
+.container-list {
+  width: 1200px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.login-list {
+  display: flex;
+  span {
+    padding-left: 10px;
+  }
+}
+.login-list-login {
+  border-right: 1px solid #ccc;
+  padding-right: 5px;
+}
+.login-list-register {
+  padding: 5px;
+}
+.type-list {
+  a {
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid #ccc;
+  }
+  a:nth-of-type(8) {
+    border: none;
+  }
+}
+.bottom{
+    width: 1200px;
+    height: 67px;
+    margin: 0 auto;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    img{
+        height: 56px;
+    }
+}
+.bottom-search{
+    input{
+        width: 490px;
+        height: 32px;
+        border: 2px solid red;
+        box-sizing: border-box;
+        outline: none;
+    }
+    button{
+        width: 68px;
+        height: 32px;
+        color: #fff;
+        font-weight: bold;
+        background-color: red;
+        border: none;
+        outline: none;
 
+    }
+}
 </style>
