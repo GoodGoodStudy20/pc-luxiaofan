@@ -19,5 +19,7 @@ components:{
 </script>
 
 <style>
-
+*{
+  list-style: none;
+}
 </style>
