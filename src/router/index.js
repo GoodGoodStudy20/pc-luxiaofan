@@ -6,25 +6,47 @@ import Login from "../views/Login"
 import Register from "../views/Register"
 import Search from "../views/Search"
 
+const push=VueRouter.prototype.push
+const replace=VueRouter.prototype.replace
+
+VueRouter.prototype.push = function ( location, onComplete, onAbout ) {
+    if ( onComplete && onAbout ) {
+       return push.call(this,location,onComplete,onAbout)
+    }
+    return push.call(this,location,onComplete,()=>{})
+}
+VueRouter.prototype.replace = function ( location, onComplete, onAbout ) {
+    if ( onComplete && onAbout ) {
+       return replace.call(this,location,onComplete,onAbout)
+    }
+    return replace.call(this,location,onComplete,()=>{})
+}
 Vue.use( VueRouter )
 
 export default new VueRouter( {
     routes: [
         {
             path: "/",
-            component:Home
-    },
-        {
+            component: Home
+        },
+        {//设置meta参数，可以通过this.$route.meta获取,用来显示隐藏Footer组件
             path: "/login",
-            component:Login
-    },
+            component: Login,
+            meta: {
+                isFooterHide: true,
+            }
+        },
         {
             path: "/register",
-            component:Register
-    },
+            component: Register,
+            meta: {
+                isFooterHide: true,
+            }
+        },
         {
-            path: "/search",
-            component:Search
-    },
-]
+            name:"search",
+            path: "/search/:searchText?",
+            component: Search
+        },
+    ]
 } )

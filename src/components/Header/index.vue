@@ -7,7 +7,9 @@
           <p>
             <span>请</span>
             <router-link to="/login" class="login-list-login">登录</router-link>
-            <router-link to="/register" class="login-list-register">免费注册</router-link>
+            <router-link to="/register" class="login-list-register"
+              >免费注册</router-link
+            >
           </p>
         </div>
         <div class="type-list">
@@ -23,27 +25,45 @@
       </div>
     </div>
     <div class="bottom">
-        <div class="bottom-logo">
-          <router-link to="/"><img src="./images/logo.png"/></router-link>
-        </div>
-        <div class="bottom-search">
-            <form>
-          <input type="text" />
-          <button @click="search">搜索</button>
-          </form>
-        </div>
+      <div class="bottom-logo">
+        <router-link to="/"><img src="./images/logo.png" /></router-link>
       </div>
+      <div class="bottom-search">
+        <form @submit.prevent="search">
+          <input type="text" v-model="searchText" />
+          <button>搜索</button>
+        </form>
+      </div>
+    </div>
   </header>
 </template>
 
 <script>
 export default {
   name: "Header",
-  methods:{
-      search(){
-          this.$router.push("/search")
+  data() {
+    return {
+      searchText: "",
+    };
+  },
+  methods: {
+    //点击跳转到search路由
+    search() {
+      const { searchText } = this;
+      // const params = searchText ? `/${searchText}` : "";
+      // const location = "/search"+params;
+      // this.$router.push(location);
+      const location={
+        name:"search",
       }
-  }
+      if(searchText){
+        location.params={
+          searchText
+        }
+      }
+      this.$router.push(location)
+    },
+  },
 };
 </script>
 
@@ -51,8 +71,8 @@ export default {
 .header {
   min-width: 1200px;
 }
-.top{
-background-color: #eaeaea;
+.top {
+  background-color: #eaeaea;
 }
 .container-list {
   width: 1200px;
@@ -87,35 +107,34 @@ background-color: #eaeaea;
     border: none;
   }
 }
-.bottom{
-    width: 1200px;
-    height: 67px;
-    margin: 0 auto;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    img{
-        height: 56px;
-    }
+.bottom {
+  width: 1200px;
+  height: 67px;
+  margin: 0 auto;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  img {
+    height: 56px;
+  }
 }
-.bottom-search{
-    input{
-        width: 490px;
-        height: 32px;
-        border: 2px solid red;
-        box-sizing: border-box;
-        outline: none;
-    }
-    button{
-        width: 68px;
-        height: 32px;
-        color: #fff;
-        font-weight: bold;
-        background-color: red;
-        border: none;
-        outline: none;
-
-    }
+.bottom-search {
+  input {
+    width: 490px;
+    height: 32px;
+    border: 2px solid red;
+    box-sizing: border-box;
+    outline: none;
+  }
+  button {
+    width: 68px;
+    height: 32px;
+    color: #fff;
+    font-weight: bold;
+    background-color: red;
+    border: none;
+    outline: none;
+  }
 }
 </style>
