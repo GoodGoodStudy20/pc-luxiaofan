@@ -26,7 +26,7 @@
           <label> <input type="checkbox" />自动登录 </label>
           <a href="">忘记密码？</a>
         </div>
-        <button>登录</button>
+        <button @click="login">登录</button>
         <div>
           <a href="">立即注册</a>
         </div>
@@ -36,8 +36,18 @@
 </template>
 
 <script>
+import {reqLogin} from "../../api/users"
 export default {
   name: "Login",
+  methods:{
+    login(){
+      reqLogin("13700000000","111111").then(res=>{
+        console.log(res);
+      }).catch(err=>{
+        console.log(err);
+      })
+    }
+  }
 };
 </script>
 
