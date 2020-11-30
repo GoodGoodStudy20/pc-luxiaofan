@@ -53,15 +53,20 @@ export default {
       // const params = searchText ? `/${searchText}` : "";
       // const location = "/search"+params;
       // this.$router.push(location);
-      const location={
-        name:"search",
+      const location = {
+        name: "search",
+      };
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
       }
-      if(searchText){
-        location.params={
-          searchText
-        }
+
+      const { categoryName } = this.$route.query;
+      if (categoryName) {
+        location.query = this.$route.query;
       }
-      this.$router.push(location)
+      this.$router.push(location);
     },
   },
 };

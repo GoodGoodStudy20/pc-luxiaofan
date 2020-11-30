@@ -1,7 +1,7 @@
 <template>
   <div class="home-main">
-    <div class="home-main-list" @mouseenter="isShow=true" @mouseleave="isShow=false">
-      <h2 class="all-goods-list">全部商品分类</h2>
+    <div class="home-main-list" @mouseleave="isShow = false">
+      <h2 class="all-goods-list" @mouseenter="isShow = true">全部商品分类</h2>
       <div class="home-main-nav">
         <a href="">服装城</a>
         <a href="">美妆馆</a>
@@ -12,58 +12,60 @@
         <a href="">有趣</a>
         <a href="">秒杀</a>
       </div>
-      <div class="home-sort" v-show="isHomeShow || isShow">
-        <div class="all-sort-list2" @click="goSearch">
-          <div
-            class="home-allgoods"
-            v-for="categoryFirst in categoryList"
-            :key="categoryFirst.categoryId"
-          >
-            <h3>
-              <!-- 一级分类列表 -->
-              <a
-                :data-categoryName="categoryFirst.categoryName"
-                :data-categoryId="categoryFirst.categoryId"
-                :data-categoryType="1"
-                >{{ categoryFirst.categoryName }}</a
-              >
-            </h3>
-            <div class="item-list clearfix" >
-              <div class="subitem">
-                <dl
-                  class="fore"
-                  v-for="categorySecond in categoryFirst.categoryChild"
-                  :key="categorySecond.categoryId"
+      <transition name="fade">
+        <div class="home-sort" v-show="isHomeShow || isShow">
+          <div class="all-sort-list2" @click="goSearch">
+            <div
+              class="home-allgoods"
+              v-for="categoryFirst in categoryList"
+              :key="categoryFirst.categoryId"
+            >
+              <h3>
+                <!-- 一级分类列表 -->
+                <a
+                  :data-categoryName="categoryFirst.categoryName"
+                  :data-categoryId="categoryFirst.categoryId"
+                  :data-categoryType="1"
+                  >{{ categoryFirst.categoryName }}</a
                 >
-                  <dt>
-                    <!-- 二级列表 -->
-                    <a
-                      :data-categoryName="categorySecond.categoryName"
-                      :data-categoryId="categorySecond.categoryId"
-                      :data-categoryType="2"
-                      >{{ categorySecond.categoryName }}</a
-                    >
-                  </dt>
-                  <dd>
-                    <!-- 三级列表 -->
-                    <em
-                      v-for="categoryThird in categorySecond.categoryChild"
-                      :key="categoryThird.categoryId"
-                    >
+              </h3>
+              <div class="item-list clearfix">
+                <div class="subitem">
+                  <dl
+                    class="fore"
+                    v-for="categorySecond in categoryFirst.categoryChild"
+                    :key="categorySecond.categoryId"
+                  >
+                    <dt>
+                      <!-- 二级列表 -->
                       <a
-                        :data-categoryName="categoryThird.categoryName"
-                        :data-categoryId="categoryThird.categoryId"
-                        :data-categoryType="3"
-                        >{{ categoryThird.categoryName }}</a
+                        :data-categoryName="categorySecond.categoryName"
+                        :data-categoryId="categorySecond.categoryId"
+                        :data-categoryType="2"
+                        >{{ categorySecond.categoryName }}</a
                       >
-                    </em>
-                  </dd>
-                </dl>
+                    </dt>
+                    <dd>
+                      <!-- 三级列表 -->
+                      <em
+                        v-for="categoryThird in categorySecond.categoryChild"
+                        :key="categoryThird.categoryId"
+                      >
+                        <a
+                          :data-categoryName="categoryThird.categoryName"
+                          :data-categoryId="categoryThird.categoryId"
+                          :data-categoryType="3"
+                          >{{ categoryThird.categoryName }}</a
+                        >
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -74,8 +76,8 @@ export default {
   name: "SortNav",
   data() {
     return {
-      isHomeShow:this.$route.path==="/",
-      isShow:false
+      isHomeShow: this.$route.path === "/",
+      isShow: false,
     };
   },
   computed: {
@@ -86,21 +88,30 @@ export default {
   methods: {
     ...mapActions(["getCategoryList"]),
     goSearch(e) {
-      this.isShow=false
       const { categoryname, categorytype, categoryid } = e.target.dataset;
-      console.log(this.$router);
-      console.log(e.target.dataset);
-      this.$router.push({
+      if (!categoryname) return;
+      //隐藏分类列表
+      this.isShow = false;
+      const location = {
         name: "search",
         query: {
+          name: "search",
           categoryName: categoryname,
           [`category${categorytype}Id`]: categoryid,
         },
-      });
+      };
+      const { searchText } = this.$route.params;
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
+      }
+      this.$router.push(location);
     },
   },
   mounted() {
     // console.log(this);
+    if(this.categoryList.length)return
     this.getCategoryList();
 
     // const result = reqgetBaseCategoryList();
@@ -145,6 +156,13 @@ export default {
   height: 461px;
   background-color: #fafafa;
   z-index: 10;
+  &.fade-enter-active {
+    transition: height 0.5s;
+    overflow: hidden;
+  }
+  &.fade-enter {
+    height: 0;
+  }
 }
 .home-allgoods h3 {
   line-height: 30px;
