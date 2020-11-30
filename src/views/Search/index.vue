@@ -1,12 +1,16 @@
 <template>
   <div>
-      Search....
+     <SortNav />
   </div>
 </template>
 
 <script>
+import SortNav from "../../components/SortNav"
 export default {
   name: 'Search',
+  components:{
+    SortNav
+  }
 }
 </script>
 

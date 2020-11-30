@@ -1,13 +1,33 @@
 <template>
   <div class="main-container">
     <div class="main-container-center">
-      <swiper ref="mySwiper" :options="swiperOptions" class="main-carousel">
+      <!-- <swiper ref="mySwiper" :options="swiperOptions" class="main-carousel">
         <swiper-slide><img src="./images/banner1.jpg" /></swiper-slide>
         <swiper-slide><img src="./images/banner2.jpg" /></swiper-slide>
         <swiper-slide><img src="./images/banner3.jpg" /></swiper-slide>
         <swiper-slide><img src="./images/banner4.jpg" /></swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
+      </swiper> -->
+      <div class="block main-carousel">
+        <el-carousel trigger="click" height="455px">
+          <el-carousel-item
+            ><img src="./images/banner1.jpg" />
+            <!-- <h3 class="small">{{ item }}</h3> -->
+          </el-carousel-item>
+          <el-carousel-item
+            ><img src="./images/banner2.jpg" />
+            <!-- <h3 class="small">{{ item }}</h3> -->
+          </el-carousel-item>
+          <el-carousel-item
+            ><img src="./images/banner3.jpg" />
+            <!-- <h3 class="small">{{ item }}</h3> -->
+          </el-carousel-item>
+          <el-carousel-item
+            ><img src="./images/banner4.jpg" />
+            <!-- <h3 class="small">{{ item }}</h3> -->
+          </el-carousel-item>
+        </el-carousel>
+      </div>
     </div>
     <div class="right">
       <div class="news">
@@ -95,24 +115,24 @@
 export default {
   name: "HomeContainer",
 
-  data() {
-    return {
-      swiperOptions: {
-        pagination: {
-          el: ".swiper-pagination",
-        },
-      },
-    };
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper;
-    },
-  },
-  mounted() {
-    console.log("Current Swiper instance object", this.swiper);
-    this.swiper.slideTo(0, 1000, true);
-  },
+  // data() {
+  //   return {
+  //     swiperOptions: {
+  //       pagination: {
+  //         el: ".swiper-pagination",
+  //       },
+  //     },
+  //   };
+  // },
+  // computed: {
+  //   swiper() {
+  //     return this.$refs.mySwiper.$swiper;
+  //   },
+  // },
+  // mounted() {
+  //   console.log("Current Swiper instance object", this.swiper);
+  //   this.swiper.slideTo(0, 1000, true);
+  // },
 };
 </script>
 
@@ -126,11 +146,21 @@ export default {
   width: 730px;
   margin-left: 213px;
   margin-top: 5px;
+  overflow: hidden;
 }
+.el-carousel__item img {
+  color: #475669;
+  height: 461px;
+  width: 730px;
+  font-size: 14px;
+  opacity: 0.75;
+  margin: 0;
+}
+
 .right {
   float: left;
   width: 250px;
-
+margin-left: 5px;
   .news {
     border: 1px solid #e4e4e4;
     margin-top: 5px;

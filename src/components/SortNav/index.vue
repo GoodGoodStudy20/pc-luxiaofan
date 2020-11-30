@@ -1,6 +1,6 @@
 <template>
   <div class="home-main">
-    <div class="home-main-list">
+    <div class="home-main-list" @mouseenter="isShow=true" @mouseleave="isShow=false">
       <h2 class="all-goods-list">全部商品分类</h2>
       <div class="home-main-nav">
         <a href="">服装城</a>
@@ -12,23 +12,50 @@
         <a href="">有趣</a>
         <a href="">秒杀</a>
       </div>
-      <div class="home-sort">
-        <div class="all-sort-list2">
-          <div class="home-allgoods" v-for="categoryFirst in category" :key="categoryFirst.categoryId" >
+      <div class="home-sort" v-show="isHomeShow || isShow">
+        <div class="all-sort-list2" @click="goSearch">
+          <div
+            class="home-allgoods"
+            v-for="categoryFirst in categoryList"
+            :key="categoryFirst.categoryId"
+          >
             <h3>
-              <a href="">{{categoryFirst.categoryName}}</a>
+              <!-- 一级分类列表 -->
+              <a
+                :data-categoryName="categoryFirst.categoryName"
+                :data-categoryId="categoryFirst.categoryId"
+                :data-categoryType="1"
+                >{{ categoryFirst.categoryName }}</a
+              >
             </h3>
-            <div class="item-list clearfix">
+            <div class="item-list clearfix" >
               <div class="subitem">
-                <dl class="fore" v-for="categorySecond in categoryFirst.categoryChild" :key="categorySecond.categoryId">
+                <dl
+                  class="fore"
+                  v-for="categorySecond in categoryFirst.categoryChild"
+                  :key="categorySecond.categoryId"
+                >
                   <dt>
                     <!-- 二级列表 -->
-                    <a href="">{{categorySecond.categoryName}}</a>
+                    <a
+                      :data-categoryName="categorySecond.categoryName"
+                      :data-categoryId="categorySecond.categoryId"
+                      :data-categoryType="2"
+                      >{{ categorySecond.categoryName }}</a
+                    >
                   </dt>
                   <dd>
                     <!-- 三级列表 -->
-                    <em v-for="categoryThird in categorySecond.categoryChild" :key="categoryThird.categoryId">
-                      <a href="">{{categoryThird.categoryName}}</a>
+                    <em
+                      v-for="categoryThird in categorySecond.categoryChild"
+                      :key="categoryThird.categoryId"
+                    >
+                      <a
+                        :data-categoryName="categoryThird.categoryName"
+                        :data-categoryId="categoryThird.categoryId"
+                        :data-categoryType="3"
+                        >{{ categoryThird.categoryName }}</a
+                      >
                     </em>
                   </dd>
                 </dl>
@@ -42,17 +69,42 @@
 </template>
 
 <script>
-import { reqgetBaseCategoryList } from "../../api/sortnav";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "SortNav",
   data() {
     return {
-      category: [],
+      isHomeShow:this.$route.path==="/",
+      isShow:false
     };
   },
-  async mounted() {
-    const result = await reqgetBaseCategoryList();
-    this.category = result.slice(0,15);
+  computed: {
+    ...mapState({
+      categoryList: (state) => state.home.categoryList,
+    }),
+  },
+  methods: {
+    ...mapActions(["getCategoryList"]),
+    goSearch(e) {
+      this.isShow=false
+      const { categoryname, categorytype, categoryid } = e.target.dataset;
+      console.log(this.$router);
+      console.log(e.target.dataset);
+      this.$router.push({
+        name: "search",
+        query: {
+          categoryName: categoryname,
+          [`category${categorytype}Id`]: categoryid,
+        },
+      });
+    },
+  },
+  mounted() {
+    // console.log(this);
+    this.getCategoryList();
+
+    // const result = reqgetBaseCategoryList();
+    // this.category = result.slice(0, 15);
   },
 };
 </script>
@@ -84,7 +136,6 @@ export default {
   margin: 0 22px;
   font-size: 16px;
   color: #333;
-
 }
 .home-sort {
   position: absolute;
@@ -102,12 +153,11 @@ export default {
   overflow: hidden;
   padding: 0 20px;
   margin: 0;
-  a{
+  a {
     text-decoration: none;
   }
-  &:hover{
+  &:hover {
     background-color: #ccc;
-
   }
 }
 .item-list {
