@@ -101,8 +101,21 @@
 </template>
 
 <script>
+// import { mapState, mapActions } from "vuex";
 export default {
   name: "HomeContainer",
+  /* computed: {
+    ...mapState({
+      banners: (state) => state.home.banners,
+    }),
+  },
+  methods: {
+    ...mapActions(["getBanners"]),
+  },
+  mounted() {
+    this.getBanners();
+    console.log(this);
+  },*/
 };
 </script>
 
@@ -121,7 +134,6 @@ export default {
 .el-carousel__item img {
   height: 461px;
   width: 730px;
-
 }
 
 .right {
