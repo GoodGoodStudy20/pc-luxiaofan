@@ -13,5 +13,10 @@ export const reqGetBanners = () => {
         method: "GET",
         url: "/banners",
     } )
-
+}
+export const reqGetFloors = () => {
+    return mockRequest( {
+        method: "GET",
+        url: "/floors",
+    } )
 }

@@ -1,11 +1,12 @@
 
-import { reqgetBaseCategoryList ,reqGetBanners} from "../../api/sortnav"
+import { reqgetBaseCategoryList, reqGetBanners, reqGetFloors } from "../../api/sortnav"
 export default {
     state: {
         categoryList: [],
-        banners:[],
+        banners: [],
+        floors:[],
     },
-    getters:{},
+    getters: {},
     actions: {
         async getCategoryList ( { commit } ) {
             const categoryList = await reqgetBaseCategoryList()
@@ -15,16 +16,22 @@ export default {
 
         async getBanners ( { commit } ) {
             const banners = await reqGetBanners()
-            // console.log(reqGetBanners().slice(0,15));
             commit( "GET_BANNERS", banners )
+        },
+        async getFloors ( { commit } ) {
+            const floors = await reqGetFloors()
+            commit( "GET_FLOORS", floors )
         }
     },
     mutations: {
         GET_CATEGORY_LIST ( state, categoryList ) {
-            state.categoryList = categoryList.slice(0,15)
+            state.categoryList = categoryList.slice( 0, 15 )
         },
         GET_BANNERS ( state, banners ) {
             state.banners = banners
+        },
+        GET_FLOORS ( state, floors ) {
+            state.floors = floors
         }
     },
 }
