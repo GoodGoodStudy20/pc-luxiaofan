@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="main-container-center">
       <div class="block main-carousel">
-        <el-carousel trigger="click" height="455px">
+        <!-- <el-carousel trigger="click" height="455px">
           <el-carousel-item
             ><img src="./images/banner1.jpg" />
           </el-carousel-item>
@@ -15,7 +15,28 @@
           <el-carousel-item
             ><img src="./images/banner4.jpg" />
           </el-carousel-item>
-        </el-carousel>
+        </el-carousel> -->
+        <div class="swiper-container">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div
+              class="swiper-slide"
+              v-for="banner in banners"
+              :key="banner.id"
+            >
+              <img :src="banner.imgUrl" />
+            </div>
+
+            ...
+          </div>
+          <!-- If we need pagination -->
+          <div class="swiper-pagination"></div>
+
+          <!-- If we need navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
       </div>
     </div>
     <div class="right">
@@ -101,10 +122,13 @@
 </template>
 
 <script>
-// import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
+import Swiper, { Navigation, Pagination, Autoplay } from "swiper";
+import "swiper/swiper-bundle.css";
+Swiper.use([Navigation, Pagination, Autoplay]);
 export default {
   name: "HomeContainer",
-  /* computed: {
+  computed: {
     ...mapState({
       banners: (state) => state.home.banners,
     }),
@@ -112,10 +136,31 @@ export default {
   methods: {
     ...mapActions(["getBanners"]),
   },
-  mounted() {
-    this.getBanners();
-    console.log(this);
-  },*/
+  async mounted() {
+    await this.getBanners();
+
+    this.$nextTick(() => {
+      new Swiper(".swiper-container", {
+        // Optional parameters
+        loop: true,
+
+        // If we need pagination
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        autoplay: {
+          delay: 1000,
+          disableOnInteraction: false,
+        },
+        // Navigation arrows
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    });
+  },
 };
 </script>
 
@@ -125,16 +170,21 @@ export default {
   margin: 0 auto;
   display: flex;
 }
+.main-container-center {
+  height: 461px;
+}
 .main-carousel {
+  box-sizing: border-box;
   width: 730px;
+  height: 100%;
   margin-left: 213px;
   margin-top: 5px;
   overflow: hidden;
 }
-.el-carousel__item img {
+/* .el-carousel__item img {
   height: 461px;
   width: 730px;
-}
+} */
 
 .right {
   float: left;

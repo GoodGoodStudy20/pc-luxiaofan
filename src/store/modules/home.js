@@ -1,5 +1,5 @@
 
-import { reqgetBaseCategoryList ,reqGetRequest} from "../../api/sortnav"
+import { reqgetBaseCategoryList ,reqGetBanners} from "../../api/sortnav"
 export default {
     state: {
         categoryList: [],
@@ -12,9 +12,10 @@ export default {
             // console.log(reqgetBaseCategoryList().slice(0,15));
             commit( "GET_CATEGORY_LIST", categoryList )
         },
+
         async getBanners ( { commit } ) {
-            const banners = await reqGetRequest()
-            // console.log(reqGetRequest().slice(0,15));
+            const banners = await reqGetBanners()
+            // console.log(reqGetBanners().slice(0,15));
             commit( "GET_BANNERS", banners )
         }
     },

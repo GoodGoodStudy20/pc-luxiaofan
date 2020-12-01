@@ -8,7 +8,7 @@ export const reqgetBaseCategoryList = () => {
     } )
 
 }
-export const reqGetRequest = () => {
+export const reqGetBanners = () => {
     return mockRequest( {
         method: "GET",
         url: "/banners",

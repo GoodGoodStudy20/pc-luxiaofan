@@ -1,12 +1,12 @@
 import Mock from "mockjs"
-import banners from "./banners.json"
-import floors from "./floors.json"
+import banners from "./rbanners.json"
+import floors from "./rfloors.json"
 
 Mock.mock( "/mock/banners", "get", {
     code: 200,
-    "data | 4":banners,
+    "data|4": banners,
 } )
 Mock.mock( "/mock/floors", "get", {
     code: 200,
-    "data | 3-5":floors,
+    "data | 3-5": floors,
 } )
