@@ -5,8 +5,9 @@
       <div class="search-main">
         <ul class="search-top">
           <li>
-            <a href="jiavascript:;">全部结果 ></a>
+            <a href="#">全部结果 ></a>
           </li>
+          <li></li>
         </ul>
         <div class="search-container">
           <div class="search-brand">
@@ -99,42 +100,121 @@
             <div class="search-options-left">
               <p>高级选项</p>
             </div>
-              <ul class="search-options-list">
-                <li>
-                  <a href="">运行内存</a>
-                </li>
-                <li>
-                  <a href="">机身内存</a>
-                </li>
-                <li>
-                  <a href="">颜色</a>
-                </li>
-              </ul>
+            <ul class="search-options-list">
+              <li>
+                <a href="">运行内存</a>
+              </li>
+              <li>
+                <a href="">机身内存</a>
+              </li>
+              <li>
+                <a href="">颜色</a>
+              </li>
+            </ul>
           </div>
           <ul class="search-sort-type">
             <li><a href="">综合</a></li>
             <li><a href="">销量</a></li>
             <li><a href="">新品</a></li>
             <li><a href="">评价</a></li>
-            <li><a href="">价格</a></li>
+            <li><a href="">价格^</a></li>
           </ul>
-          <ul class="search-list">
-            <li>
-              <a href=""><img src="./images/mobile01.png" /></a>
-            </li>
-            <li>
-              <a href=""><img src="./images/mobile02.png" /></a>
-            </li>
-            <li>
-              <a href=""><img src="./images/mobile03.png" /></a>
-            </li>
-            <li>
-              <a href=""><img src="./images/mobile04.png" /></a>
-            </li>
-            <li>
-              <a href=""><img src="./images/mobile05.png" /></a>
-            </li>
-          </ul>
+        </div>
+        <ul class="search-list">
+          <li>
+            <a href=""><img src="./images/mobile01.png" /></a>
+            <div class="search-list-main">
+              <p>￥<i>999</i></p>
+              <div class="search-list-main-introduce">
+                <a href="#"
+                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
+                  AI全场</a
+                >
+              </div>
+              <p class="search-evaluate"><strong>9999+</strong>评价</p>
+              <div class="search-add-btn">
+                <button>加入购物车</button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href=""><img src="./images/mobile02.png" /></a>
+            <div class="search-list-main">
+              <p>￥<i>999</i></p>
+              <div class="search-list-main-introduce">
+                <a href="#"
+                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
+                  AI全场</a
+                >
+              </div>
+              <p class="search-evaluate"><strong>9999+</strong>评价</p>
+              <div class="search-add-btn">
+                <button>加入购物车</button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href=""><img src="./images/mobile03.png" /></a>
+            <div class="search-list-main">
+              <p>￥<i>999</i></p>
+              <div class="search-list-main-introduce">
+                <a href="#"
+                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
+                  AI全场</a
+                >
+              </div>
+              <p class="search-evaluate"><strong>9999+</strong>评价</p>
+              <div class="search-add-btn">
+                <button>加入购物车</button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href=""><img src="./images/mobile05.png" /></a>
+            <div class="search-list-main">
+              <p>￥<i>999</i></p>
+              <div class="search-list-main-introduce">
+                <a href="#"
+                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
+                  AI全场</a
+                >
+              </div>
+              <p class="search-evaluate"><strong>9999+</strong>评价</p>
+              <div class="search-add-btn">
+                <button>加入购物车</button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href=""><img src="./images/mobile06.png" /></a>
+            <div class="search-list-main">
+              <p>￥<i>999</i></p>
+              <div class="search-list-main-introduce">
+                <a href="#"
+                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
+                  AI全场</a
+                >
+              </div>
+              <p class="search-evaluate"><strong>9999+</strong>评价</p>
+              <div class="search-add-btn">
+                <button>加入购物车</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="search-pages">
+          <div class="search-pages-btn">
+            <button>上一页</button>
+            <button>1</button>
+            <button>2</button>
+            <p>. . .</p>
+            <button>下一页</button>
+          </div>
+          <div class="search-pages-target">
+            <p>共55页</p>
+            <p>到第<input type="text" placeholder="1" />页</p>
+            <button>确定</button>
+          </div>
         </div>
       </div>
     </div>
@@ -183,7 +263,6 @@ export default {
   width: 1090px;
   height: 110px;
   display: flex;
-
 }
 .search-brand-logo {
   display: flex;
@@ -306,26 +385,119 @@ export default {
     line-height: 50px;
   }
 }
-.search-sort-type{
-height: 40px;
-line-height: 40px;
-margin-top: 5px;
-display: flex;
-li{
-width: 70px;
-text-align: center;
-font-size: 16px;
-background-color: #ccc;
-}
-li:nth-child(1){
-  background-color: red;
+.search-sort-type {
+  height: 40px;
+  line-height: 40px;
+  margin-top: 5px;
+  display: flex;
+  li {
+    width: 70px;
+    text-align: center;
+    font-size: 16px;
+    background-color: #ccc;
+  }
+  li:nth-child(1) {
+    background-color: red;
 
-  font-weight: bold;
+    font-weight: bold;
 
-    a{
-      color:#fff !important;
+    a {
+      color: #fff !important;
     }
-
+  }
 }
+.search-list {
+  display: flex;
+  margin-top: 10px;
+  li {
+    width: 246px;
+    height: 466px;
+    padding: 5px;
+    border: 1px solid red;
+    text-align: center;
+  }
+}
+.search-list-main {
+  padding-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  p:nth-child(1) {
+    font-size: 14px;
+    text-align: left;
+    width: 100%;
+    color: red;
+  }
+  .search-list-main-introduce {
+    width: 200px;
+
+    margin-top: 10px;
+    a {
+      line-height: 20px;
+    }
+  }
+  .search-evaluate {
+    width: 100%;
+    text-align: left;
+    margin: 10px 0;
+    strong {
+      color: red;
+    }
+  }
+}
+.search-add-btn {
+  width: 100%;
+  text-align: right;
+  button {
+    background-color: red;
+    width: 80px;
+    height: 30px;
+    color: #fff;
+    border: none;
+  }
+}
+.search-pages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  line-height: 80px;
+  margin-top: 20px;
+  font-size: 14px;
+  button {
+    width: 50px;
+    height: 50px;
+    border: 1px solid pink;
+    margin: 5px;
+  }
+}
+.search-pages-btn {
+  display: flex;
+  p {
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+.search-pages-target {
+  display: flex;
+  padding-left: 20px;
+  align-items: center;
+  p:first-child {
+    margin-right: 10px;
+  }
+  input {
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    outline: none;
+  }
+  button {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+  }
 }
 </style>

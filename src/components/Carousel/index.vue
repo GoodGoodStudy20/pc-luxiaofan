@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" ref="swiper">
     <div class="swiper-wrapper">
       <!-- 页面遍历 -->
       <div
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     initSwiper() {
-      this.swiper = new Swiper(".swiper-container", {
+      this.swiper = new Swiper(this.$refs.swiper, {
         // 设置是否循环
         loop: true,
         // 设置分页器功能
