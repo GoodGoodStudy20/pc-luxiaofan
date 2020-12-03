@@ -6,9 +6,13 @@ import store from "./store"
 import "./styles/reset.css"
 import "./styles/index.css"
 import './plugins/element.js'
+import "./styles/iconfont.css";
 Vue.config.productionTip = false
-new Vue({
+new Vue( {
+  beforeCreate () {
+    Vue.prototype.$bus = this
+  },
   render: h => h( App ),
   router,
   store
-}).$mount('#app')
+} ).$mount( '#app' )

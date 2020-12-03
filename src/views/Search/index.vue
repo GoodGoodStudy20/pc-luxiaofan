@@ -3,192 +3,87 @@
     <SortNav />
     <div class="search-outer">
       <div class="search-main">
-        <ul class="search-top">
-          <li>
-            <a href="#">全部结果 ></a>
-          </li>
-          <li></li>
-        </ul>
+        <div class="search-top-outer">
+          <ul class="search-top">
+            <li>
+              <a href="#">全部结果 ></a>
+            </li>
+          </ul>
+          <ul class="search-tag">
+            <li class="close-x" v-show="options.keyword">
+              <a @click="delKeyword">{{ options.keyword }}<i>x</i></a>
+            </li>
+            <li class="close-x" v-show="options.categoryName">
+              <a @click="delCategoryName">{{ options.categoryName }}<i>x</i></a>
+            </li>
+            <li class="close-x" v-show="options.trademark">
+              <a @click="delTrademark"
+                >品牌:{{ options.trademark.split(":")[1] }}<i>x</i></a
+              >
+            </li>
+            <li
+              class="close-x"
+              v-for="(prop, index) in options.props"
+              :key="prop"
+              @click="delProp(index)"
+            >
+              <a>{{ prop.split(":")[2] }}:{{ prop.split(":")[1] }}<i>x</i></a>
+            </li>
+          </ul>
+        </div>
         <div class="search-container">
-          <div class="search-brand">
-            <div class="search-brand-left">
-              <p>品牌</p>
-            </div>
-            <div class="search-brand-main">
-              <ul class="search-brand-logo">
-                <li>
-                  <a href=""><img src="" />华为</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />小米</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />oppo</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />oppo</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />oppo</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />oppo</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />oppo</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />oppo</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />oppo</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />pink</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />pink</a>
-                </li>
-                <li>
-                  <a href=""><img src="" />pink</a>
-                </li>
-              </ul>
-              <div class="search-brand-right">
-                <div class="more"><a href="">更多V</a></div>
-                <div class="more"><a href="">+多选</a></div>
-              </div>
-            </div>
-          </div>
-          <div class="search-type">
-            <div class="search-type-left">
-              <p>分类</p>
-            </div>
-
-            <ul class="search-type-list">
-              <li>
-                <a href="">手机</a>
-              </li>
-              <li>
-                <a href="">平板</a>
-              </li>
-            </ul>
-          </div>
-          <div class="search-name">
-            <div class="search-name-left">
-              <p>品牌名称</p>
-            </div>
-            <ul class="search-name-list">
-              <li>
-                <a href="">华为</a>
-              </li>
-              <li>
-                <a href="">小米</a>
-              </li>
-            </ul>
-          </div>
-          <div class="search-size">
-            <div class="search-size-left">
-              <p>屏幕尺寸</p>
-            </div>
-            <ul class="search-size-list">
-              <li>
-                <a href="">5.0英寸</a>
-              </li>
-            </ul>
-          </div>
-          <div class="search-options">
-            <div class="search-options-left">
-              <p>高级选项</p>
-            </div>
-            <ul class="search-options-list">
-              <li>
-                <a href="">运行内存</a>
-              </li>
-              <li>
-                <a href="">机身内存</a>
-              </li>
-              <li>
-                <a href="">颜色</a>
-              </li>
-            </ul>
-          </div>
+          <SearchList :addTrademark="addTrademark" @addprops="addprops" />
           <ul class="search-sort-type">
-            <li><a href="">综合</a></li>
+            <li
+              :class="{ active: options.order.indexOf('1') > -1 }"
+              @click="setOrder('1')"
+            >
+              <a>
+                综合<i
+                  :class="{
+                    iconfont: true,
+                    'icon-jiangxu': isAllDown,
+                    'icon-ascending': !isAllDown,
+                  }"
+                ></i>
+              </a>
+            </li>
             <li><a href="">销量</a></li>
             <li><a href="">新品</a></li>
             <li><a href="">评价</a></li>
-            <li><a href="">价格^</a></li>
+            <li
+              :class="{ active: options.order.indexOf('2') > -1 }"
+              @click="setOrder('2')"
+            >
+              <a
+                >价格
+                <span class="icon-i">
+                  <i
+                    :class="{
+                      iconfont: true,
+                      'icon-shengxu2': true,
+                      deactive: options.order.indexOf('2') > -1 && isPriceDown,
+                    }"
+                  ></i
+                  ><i
+                    :class="{
+                      iconfont: true,
+                      'icon-inverted-order': true,
+                      deactive: options.order.indexOf('2') > -1 && !isPriceDown,
+                    }"
+                  ></i></span
+              ></a>
+            </li>
           </ul>
         </div>
+
         <ul class="search-list">
-          <li>
-            <a href=""><img src="./images/mobile01.png" /></a>
+          <li v-for="goods in goodsList" :key="goods.id">
+            <a href=""><img :src="goods.defaultImg" /></a>
             <div class="search-list-main">
-              <p>￥<i>999</i></p>
-              <div class="search-list-main-introduce">
-                <a href="#"
-                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
-                  AI全场</a
-                >
-              </div>
-              <p class="search-evaluate"><strong>9999+</strong>评价</p>
-              <div class="search-add-btn">
-                <button>加入购物车</button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <a href=""><img src="./images/mobile02.png" /></a>
-            <div class="search-list-main">
-              <p>￥<i>999</i></p>
-              <div class="search-list-main-introduce">
-                <a href="#"
-                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
-                  AI全场</a
-                >
-              </div>
-              <p class="search-evaluate"><strong>9999+</strong>评价</p>
-              <div class="search-add-btn">
-                <button>加入购物车</button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <a href=""><img src="./images/mobile03.png" /></a>
-            <div class="search-list-main">
-              <p>￥<i>999</i></p>
-              <div class="search-list-main-introduce">
-                <a href="#"
-                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
-                  AI全场</a
-                >
-              </div>
-              <p class="search-evaluate"><strong>9999+</strong>评价</p>
-              <div class="search-add-btn">
-                <button>加入购物车</button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <a href=""><img src="./images/mobile05.png" /></a>
-            <div class="search-list-main">
-              <p>￥<i>999</i></p>
-              <div class="search-list-main-introduce">
-                <a href="#"
-                  >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
-                  AI全场</a
-                >
-              </div>
-              <p class="search-evaluate"><strong>9999+</strong>评价</p>
-              <div class="search-add-btn">
-                <button>加入购物车</button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <a href=""><img src="./images/mobile06.png" /></a>
-            <div class="search-list-main">
-              <p>￥<i>999</i></p>
+              <p>
+                ￥<i>{{ goods.price }}</i>
+              </p>
               <div class="search-list-main-introduce">
                 <a href="#"
                   >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
@@ -223,10 +118,128 @@
 
 <script>
 import SortNav from "../../components/SortNav";
+import SearchList from "./SearchList";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Search",
+  data() {
+    return {
+      //初始化所有数据，在接口文档可以找到数据类型
+      options: {
+        category1Id: "", // 一级分类id
+        category2Id: "", // 二级分类id
+        category3Id: "", // 三级分类id
+        categoryName: "", // 分类名称
+        keyword: "", // 搜索内容（搜索关键字）
+        order: "1:desc", // 排序方式：1：综合排序  2：价格排序   asc 升序  desc 降序
+        pageNo: 1, // 分页的页码（第几页）
+        pageSize: 5, // 分页的每页商品数量
+        props: [], // 商品属性
+        trademark: "", // 品牌
+      },
+      isAllDown: true,
+      isPriceDown: false,
+    };
+  },
+  watch: {
+    //监视$route的变化，监视搜索的params,query地址的变化，更新数据
+    $route() {
+      this.updateProductList();
+    },
+  },
+  computed: {
+    /* ...mapState({
+  productList:(state)=>state.search.productList
+}) */
+    ...mapGetters(["trademarkList", "attrsList", "goodsList"]),
+  },
+  methods: {
+    ...mapActions(["getProductList"]),
+    //更新商品列表
+    updateProductList() {
+      const { searchText: keyword } = this.$route.params; //获取params参数关键字
+      const {
+        //获取query上的参数
+        categoryName,
+        category1Id,
+        category2Id,
+        category3Id,
+      } = this.$route.query;
+
+      const options = {
+        ...this.options, //展开所有初始化数据
+        keyword, //可以覆盖掉原有初始化数据。
+        categoryName,
+        category1Id,
+        category2Id,
+        category3Id,
+      };
+      //更新数据到this.options上,这样数据才可以在组件上找到
+      this.options = options;
+      //发送请求数据时传入数据
+      this.getProductList(options);
+    },
+    delKeyword() {
+      this.$bus.$emit("clearKeyword");
+      this.options.keyword = "";
+      this.$router.replace({
+        name: "search",
+        query: this.$route.query,
+      });
+    },
+    delCategoryName() {
+      this.options.categoryName = "";
+      this.$router.replace({
+        name: "search",
+        params: this.$route.params,
+      });
+    },
+    //添加品牌数据
+    addTrademark(trademark) {
+      this.options.trademark = trademark;
+      this.updateProductList();
+    },
+    //点击x按钮删除
+    delTrademark() {
+      this.options.trademark = "";
+      this.updateProductList();
+    },
+    addprops(prop) {
+      this.options.props.push(prop);
+      this.updateProductList();
+    },
+    delProp(index) {
+      this.options.props.splice(index, 1);
+      this.updateProductList();
+    },
+    setOrder(order) {
+      let [orderNum, orderType] = this.options.order.split(":");
+      if (orderNum === order) {
+        if (order === "1") {
+          this.isAllDown = !this.isAllDown;
+        } else {
+          this.isPriceDown = !this.isPriceDown;
+        }
+        orderType = orderType === "desc" ? "asc" : "desc";
+      } else {
+        if(order==="1"){
+          orderType = this.isAllDown ? "desc" : "asc";
+        } else {
+          this.isPriceDown = false;
+          orderType = "asc";
+        }
+      }
+      this.options.order = `${order}:${orderType}`;
+      this,this.updateProductList()
+    },
+  },
+  mounted() {
+    //挂载时需要发送请求数据
+    this.updateProductList();
+  },
   components: {
     SortNav,
+    SearchList,
   },
 };
 </script>
@@ -236,185 +249,80 @@ export default {
   width: 1200px;
   margin: 0 auto;
 }
+.search-top-outer {
+  display: flex;
+  align-items: center;
+  .search-tag {
+    display: flex;
+  }
+}
 .search-top {
   height: 40px;
   line-height: 40px;
   font-size: 14px;
-  display: flex;
+  margin-right: 20px;
 }
-.search-brand {
-  display: flex;
-  font-size: 14px;
-  border-bottom: 1px solid pink;
-  border-top: 1px solid pink;
-  .search-brand-left {
-    background-color: #ccc;
-  }
-  p {
-    width: 110px;
-    padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin: auto 0;
-    box-sizing: border-box;
-  }
-}
-.search-brand-main {
-  width: 1090px;
-  height: 110px;
-  display: flex;
-}
-.search-brand-logo {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 5px;
-  box-sizing: border-box;
-  li {
-    width: 110px;
-    height: 50px;
-    border: 1px solid pink;
-    line-height: 40px;
-    text-align: center;
-    box-sizing: border-box;
-  }
-}
-.search-brand-right {
-  width: 200px;
-
-  padding-left: 50px;
-  display: flex;
-  .more {
-    margin: 5px;
-    width: 50px;
-    height: 20px;
-    line-height: 20px;
-    border: 1px solid pink;
-    font-size: 12px;
-    text-align: center;
-  }
-}
-.search-type {
-  height: 50px;
-  line-height: 50px;
-  display: flex;
-  border-bottom: 1px solid pink;
-  .search-type-left {
-    background-color: #ccc;
-  }
-  p {
-    width: 110px;
-    padding-left: 10px;
-    margin: auto 0;
-    box-sizing: border-box;
-  }
-}
-.search-type-list {
-  display: flex;
-  li {
-    width: 100px;
-    text-align: center;
-    line-height: 50px;
-  }
-}
-.search-name {
-  height: 50px;
-  line-height: 50px;
-  display: flex;
-  border-bottom: 1px solid pink;
-  .search-name-left {
-    background-color: #ccc;
-  }
-  p {
-    width: 110px;
-    padding-left: 10px;
-    margin: auto 0;
-    box-sizing: border-box;
-  }
-}
-.search-name-list {
-  display: flex;
-  li {
-    width: 100px;
-    text-align: center;
-    line-height: 50px;
-  }
-}
-.search-size {
-  height: 50px;
-  line-height: 50px;
-  display: flex;
-  border-bottom: 1px solid pink;
-  .search-size-left {
-    background-color: #ccc;
-  }
-  p {
-    width: 110px;
-    padding-left: 10px;
-    margin: auto 0;
-    box-sizing: border-box;
-  }
-}
-.search-size-list {
-  display: flex;
-  li {
-    width: 100px;
-    text-align: center;
-    line-height: 50px;
-  }
-}
-.search-options {
-  height: 50px;
-  line-height: 50px;
-  display: flex;
-  border-bottom: 1px solid pink;
-  .search-options-left {
-    background-color: #ccc;
-  }
-  p {
-    width: 110px;
-    padding-left: 10px;
-    margin: auto 0;
-    box-sizing: border-box;
-  }
-}
-.search-options-list {
-  display: flex;
-  li {
-    width: 100px;
-    text-align: center;
-    line-height: 50px;
+.close-x {
+  height: 20px;
+  line-height: 20px;
+  background-color: #ccc;
+  margin: 10px;
+  border-radius: 1px;
+  i {
+    margin: 0 10px;
   }
 }
 .search-sort-type {
   height: 40px;
   line-height: 40px;
-  margin-top: 5px;
+  margin-top: 20px;
   display: flex;
+  background-color: #ccc;
   li {
-    width: 70px;
+    width: 80px;
     text-align: center;
     font-size: 16px;
-    background-color: #ccc;
+    &.active {
+      background: #e1251b;
+      a {
+        color: #fff;
+      }
+    }
   }
-  li:nth-child(1) {
-    background-color: red;
-
-    font-weight: bold;
-
-    a {
-      color: #fff !important;
+  li:nth-child(5) {
+    .icon-i {
+      position: relative;
+      padding-left: 5px;
+      i:nth-child(1) {
+        position: absolute;
+        top: -18px;
+      }
+      i:nth-child(2) {
+        position: absolute;
+        top: -3px;
+      }
+      i.deactive {
+        opacity: 0.5;
+      }
     }
   }
 }
 .search-list {
   display: flex;
+  flex-wrap: wrap;
   margin-top: 10px;
+  overflow: hidden;
   li {
-    width: 246px;
-    height: 466px;
+    width: 240px;
+    height: 450px;
     padding: 5px;
     border: 1px solid red;
     text-align: center;
+    box-sizing: border-box;
+    img {
+      width: 200px;
+      height: 230px;
+    }
   }
 }
 .search-list-main {

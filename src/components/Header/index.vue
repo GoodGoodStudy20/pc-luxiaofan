@@ -66,8 +66,23 @@ export default {
       if (categoryName) {
         location.query = this.$route.query;
       }
-      this.$router.push(location);
+      //如果是由search路径就用push，否则用replace
+      // if (this.$route.path.indexOf('/search') > -1) {
+      // if (this.$route.path.includes("/search")) {
+      // if (this.$route.path.startsWith("/search")) {
+      // if (/^\/search/.test(this.$route.path)) {
+      // this.$route.path 路径路由
+      if (this.$route.name === "search") {
+        this.$router.push(location);
+      } else {
+        this.$router.replace(location);
+      }
     },
+  },
+  mounted() {
+    this.$bus.$on("clearKeyword", () => {
+      this.searchText = "";
+    });
   },
 };
 </script>

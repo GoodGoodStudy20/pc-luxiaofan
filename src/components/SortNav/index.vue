@@ -106,12 +106,16 @@ export default {
           searchText,
         };
       }
-      this.$router.push(location);
+      if (this.$route.name === "search") {
+        this.$router.push(location);
+      } else {
+        this.$router.replace(location);
+      }
     },
   },
   mounted() {
     // console.log(this);
-    if(this.categoryList.length)return
+    if (this.categoryList.length) return;
     this.getCategoryList();
 
     // const result = reqgetBaseCategoryList();
