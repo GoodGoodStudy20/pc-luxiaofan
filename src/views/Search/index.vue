@@ -98,19 +98,25 @@
           </li>
         </ul>
         <div class="search-pages">
-          <div class="block">
-            <!-- <span class="demonstration">完整功能</span> -->
+          <Pagination
+            :total="total"
+            :page-size="5"
+            :pager-count="7"
+            :current-page="options.pageNo"
+          />
+          <!-- <div class="block">
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page="options.pageNo"
               :page-sizes="[5, 10, 15, 20]"
               :page-size="5"
+              :pager-count="7"
               layout="total, sizes, prev, pager, next, jumper"
               :total="total"
             >
             </el-pagination>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -119,6 +125,7 @@
 
 <script>
 import SortNav from "../../components/SortNav";
+import Pagination from "../../components/Pagination";
 import SearchList from "./SearchList";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -249,6 +256,7 @@ export default {
   components: {
     SortNav,
     SearchList,
+    Pagination,
   },
 };
 </script>
