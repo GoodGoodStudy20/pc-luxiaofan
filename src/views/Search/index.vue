@@ -98,17 +98,18 @@
           </li>
         </ul>
         <div class="search-pages">
-          <div class="search-pages-btn">
-            <button>上一页</button>
-            <button>1</button>
-            <button>2</button>
-            <p>. . .</p>
-            <button>下一页</button>
-          </div>
-          <div class="search-pages-target">
-            <p>共55页</p>
-            <p>到第<input type="text" placeholder="1" />页</p>
-            <button>确定</button>
+          <div class="block">
+            <!-- <span class="demonstration">完整功能</span> -->
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="options.pageNo"
+              :page-sizes="[5, 10, 15, 20]"
+              :page-size="5"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
+            >
+            </el-pagination>
           </div>
         </div>
       </div>
@@ -151,12 +152,12 @@ export default {
     /* ...mapState({
   productList:(state)=>state.search.productList
 }) */
-    ...mapGetters(["trademarkList", "attrsList", "goodsList"]),
+    ...mapGetters(["trademarkList", "attrsList", "goodsList", "total"]),
   },
   methods: {
     ...mapActions(["getProductList"]),
     //更新商品列表
-    updateProductList() {
+    updateProductList(pageNo = 1) {
       const { searchText: keyword } = this.$route.params; //获取params参数关键字
       const {
         //获取query上的参数
@@ -173,6 +174,7 @@ export default {
         category1Id,
         category2Id,
         category3Id,
+        pageNo,
       };
       //更新数据到this.options上,这样数据才可以在组件上找到
       this.options = options;
@@ -222,7 +224,7 @@ export default {
         }
         orderType = orderType === "desc" ? "asc" : "desc";
       } else {
-        if(order==="1"){
+        if (order === "1") {
           orderType = this.isAllDown ? "desc" : "asc";
         } else {
           this.isPriceDown = false;
@@ -230,7 +232,14 @@ export default {
         }
       }
       this.options.order = `${order}:${orderType}`;
-      this,this.updateProductList()
+      this, this.updateProductList();
+    },
+    handleSizeChange(pageSize) {
+      this.options.pageSize = pageSize;
+      this.updateProductList();
+    },
+    handleCurrentChange(pageNo) {
+      this.updateProductList(pageNo);
     },
   },
   mounted() {
@@ -368,44 +377,44 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
-  line-height: 80px;
+  // height: 80px;
+  // line-height: 80px;
   margin-top: 20px;
-  font-size: 14px;
-  button {
-    width: 50px;
-    height: 50px;
-    border: 1px solid pink;
-    margin: 5px;
-  }
+  // font-size: 14px;
+  // button {
+  //   width: 50px;
+  //   height: 50px;
+  //   border: 1px solid pink;
+  //   margin: 5px;
+  // }
 }
-.search-pages-btn {
-  display: flex;
-  p {
-    height: 50px;
-    width: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 20px;
-  }
-}
-.search-pages-target {
-  display: flex;
-  padding-left: 20px;
-  align-items: center;
-  p:first-child {
-    margin-right: 10px;
-  }
-  input {
-    height: 50px;
-    width: 50px;
-    text-align: center;
-    outline: none;
-  }
-  button {
-    height: 50px;
-    width: 50px;
-    border-radius: 5px;
-  }
-}
+// .search-pages-btn {
+//   display: flex;
+//   p {
+//     height: 50px;
+//     width: 50px;
+//     line-height: 50px;
+//     text-align: center;
+//     font-size: 20px;
+//   }
+// }
+// .search-pages-target {
+//   display: flex;
+//   padding-left: 20px;
+//   align-items: center;
+//   p:first-child {
+//     margin-right: 10px;
+//   }
+//   input {
+//     height: 50px;
+//     width: 50px;
+//     text-align: center;
+//     outline: none;
+//   }
+//   button {
+//     height: 50px;
+//     width: 50px;
+//     border-radius: 5px;
+//   }
+// }
 </style>
