@@ -79,21 +79,20 @@
 
         <ul class="search-list">
           <li v-for="goods in goodsList" :key="goods.id">
-            <a href=""><img :src="goods.defaultImg" /></a>
+            <router-link :to="`/detail/${goods.id}`"
+              ><img :src="goods.defaultImg"
+            /></router-link>
             <div class="search-list-main">
               <p>
                 ￥<i>{{ goods.price }}</i>
               </p>
               <div class="search-list-main-introduce">
-                <a href="#"
+                <router-link :to="`/detail/${goods.id}`"
                   >vivo iQOO U1x 6GB+64GB 晨霜白 5000mAh大电池 骁龙662处理器
-                  AI全场</a
+                  AI全场</router-link
                 >
               </div>
               <p class="search-evaluate"><strong>9999+</strong>评价</p>
-              <div class="search-add-btn">
-                <button>加入购物车</button>
-              </div>
             </div>
           </li>
         </ul>

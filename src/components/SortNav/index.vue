@@ -155,11 +155,11 @@ export default {
 .home-sort {
   position: absolute;
   left: 0;
-  top: 47px;
+  top: 45px;
   width: 210px;
   height: 461px;
   background-color: #fafafa;
-  z-index: 10;
+  z-index: 1000;
   &.fade-enter-active {
     transition: height 0.5s;
     overflow: hidden;
