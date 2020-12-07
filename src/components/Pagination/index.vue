@@ -42,7 +42,7 @@ export default {
   props: {
     total: {
       type: Number,
-      required: true,
+      default:0,
     },
     //每页的数据
     pageSize: {

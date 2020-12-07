@@ -20,12 +20,12 @@
             </div>
 
             <div class="login-automatic">
-              <label> <input type="checkbox" />自动登录 </label>
+              <label> <input type="checkbox" checked/>自动登录 </label>
               <a href="">忘记密码？</a>
             </div>
             <button @click="login">登录</button>
-            <div>
-              <a href="">立即注册</a>
+            <div class="login-register">
+              <router-link to="/register">立即注册</router-link>
             </div>
           </div>
         </div>
@@ -106,6 +106,7 @@ export default {
   // border: 1px solid pink;
 }
 .login-phone {
+  margin-top: 40px;
   display: flex;
   border: 1px solid pink;
   border-radius: 3px;
@@ -118,8 +119,50 @@ export default {
   }
 input{
   width: 100%;
+  padding-left: 10px;
   outline: none;
   border: none;
 }
+}
+.login-password {
+  display: flex;
+  border: 1px solid pink;
+  border-radius: 3px;
+  margin-top: 20px;
+  i {
+    width: 37px;
+    height: 32px;
+    border-right: 1px solid pink;
+    background-image: url(./images/icons.png);
+    background-position: -72px -201px;
+  }
+input{
+  width: 100%;
+  padding-left: 10px;
+  outline: none;
+  border: none;
+}
+}
+.login-automatic{
+  height: 18px;
+  line-height: 18px;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+button{
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #e93854;
+  border: none;
+  outline: none;
+}
+.login-register{
+  margin-top: 20px;
+  height: 38px;
+  text-align: right;
+  font-size: 16px;
 }
 </style>

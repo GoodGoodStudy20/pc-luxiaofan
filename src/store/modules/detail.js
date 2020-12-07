@@ -2,19 +2,21 @@ import { reqGetProductDetail } from "../../api/detail"
 export default {
     state: {
         productDetail: {
-            skuInfo: {},
+            skuInfo: {
+                skuImageList: [],
+            },
             categoryView: {},
             spuSaleAttrList: [],
         }
     },
     getters: {
-        skuInfo (state) {
+        skuInfo ( state ) {
             return state.productDetail.skuInfo
         },
-        categoryView (state) {
+        categoryView ( state ) {
             return state.productDetail.categoryView
         },
-        spuSaleAttrList (state) {
+        spuSaleAttrList ( state ) {
             return state.productDetail.spuSaleAttrList
         },
     },

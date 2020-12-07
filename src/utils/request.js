@@ -1,5 +1,6 @@
 //封装axios拦截器
 import axios from "axios"
+import getUserTempId from "./getUserTempId"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 const instance = axios.create( {
@@ -10,6 +11,7 @@ const instance = axios.create( {
     }
 } )
 // 设置请求拦截器
+const userTempId = getUserTempId()
 instance.interceptors.request.use(
     ( config ) => {
         // config 请求的配置对象
@@ -19,6 +21,7 @@ instance.interceptors.request.use(
         //   config.headers.token = token;
         // }
         NProgress.start();
+        config.headers.userTempId = userTempId
         return config
         // 初始化Promise.resolve()返回默认成功的Promise，只会触发成功的回调
     } )

@@ -16,9 +16,21 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom
+            :imgUrl="
+              skuInfo.skuImageList[currentImgIndex] &&
+              skuInfo.skuImageList[currentImgIndex].imgUrl
+            "
+            :bigImgUrl="
+              skuInfo.skuImageList[currentImgIndex] &&
+              skuInfo.skuImageList[currentImgIndex].imgUrl
+            "
+          />
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList
+            :updateCurrentImgIndex="updateCurrentImgIndex"
+            :skuImageList="skuInfo.skuImageList"
+          />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -67,7 +79,9 @@
               </div>
               <div class="supportArea">
                 <div class="title">配 送 至</div>
-                <div class="fixWidth">广东省 深圳市 宝安区</div>
+                <div class="fixWidth">
+                  <a>广东省</a> <a>深圳市</a> <a>宝安区</a>
+                </div>
               </div>
             </div>
           </div>
@@ -86,16 +100,19 @@
                   {{ spuSale.saleAttrValueName }}
                 </dd>
               </dl>
-              
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <el-input-number
+                  v-model="skuNum"
+                  controls-position="right"
+                  :min="1"
+                  :max="10"
+                  class="cart-input"
+                ></el-input-number>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <button @click="addCart">加入购物车</button>
               </div>
             </div>
           </div>
@@ -134,7 +151,7 @@
                     <i>6088.00</i>
                   </div>
                   <div class="operate">
-                    <a href="javascript:void(0);">加入购物车</a>
+                    <router-link to="/shopcart">加入购物车</router-link>
                   </div>
                 </div>
               </li>
@@ -341,14 +358,33 @@ import SortNav from "../../components/SortNav";
 
 export default {
   name: "Detail",
+  data() {
+    return {
+      currentImgIndex: 0, //当前选中的图片下标，默认为第一张
+      skuNum: 1,
+    };
+  },
   computed: {
     ...mapGetters(["skuInfo", "categoryView", "spuSaleAttrList"]),
   },
   methods: {
-    ...mapActions(["getProductDetail"]),
+    ...mapActions(["getProductDetail","reqGetAddToCart"]),
+    //更新选中的下标。。
+    updateCurrentImgIndex(index) {
+      this.currentImgIndex = index;
+    },
+    //添加到购物车
+   async addCart() {
+     await this.reqGetAddToCart({
+        skuId: this.skuId,
+        skuNum: this.skuNum,
+      });
+      this.$router.push(`/shopcart`)
+    },
   },
   mounted() {
     this.getProductDetail(this.$route.params.id);
+    console.log(this.spuSaleAttrList);
   },
   components: {
     ImageList,
@@ -526,7 +562,9 @@ export default {
               position: relative;
               float: left;
               margin-right: 15px;
-
+              .cart-input {
+                width: 90px;
+              }
               .itxt {
                 width: 38px;
                 height: 37px;
@@ -536,7 +574,6 @@ export default {
                 border-right: 0;
                 text-align: center;
               }
-
               .plus,
               .mins {
                 width: 15px;
@@ -563,8 +600,8 @@ export default {
 
             .add {
               float: left;
-
-              a {
+              margin-left: 50px;
+              button {
                 background-color: #e1251b;
                 padding: 0 25px;
                 font-size: 16px;
@@ -572,6 +609,8 @@ export default {
                 height: 36px;
                 line-height: 36px;
                 display: block;
+                outline: none;
+                border: none;
               }
             }
           }
