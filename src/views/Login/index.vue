@@ -1,168 +1,275 @@
 <template>
-  <div class="login-warp">
-    <div class="login">
-      <div class="login-form-outer">
-        <div class="login-form">
-          <ul class="login-type">
-            <li>扫描登录</li>
-            <li class="active">账户登录</li>
+  <div class="login-container">
+    <!-- 登录 -->
+    <div class="login-wrap">
+      <div class="login">
+        <div class="loginform">
+          <ul class="tab clearFix">
+            <li>
+              <a href="##" style="border-right: 0">扫描登录</a>
+            </li>
+            <li>
+              <a href="##" class="current">账户登录</a>
+            </li>
           </ul>
-          <div class="login-news">
-            <div class="login-content">
-              <div class="login-phone">
-                <i></i>
-                <input type="text" placeholder="手机号" />
-              </div>
-              <div class="login-password">
-                <i></i>
-                <input type="text" placeholder="请输入密码" />
-              </div>
-            </div>
 
-            <div class="login-automatic">
-              <label> <input type="checkbox" checked/>自动登录 </label>
-              <a href="">忘记密码？</a>
-            </div>
-            <button @click="login">登录</button>
-            <div class="login-register">
-              <router-link to="/register">立即注册</router-link>
+          <div class="content">
+            <form action="##">
+              <ValidationProvider rules="required" v-slot="{ errors }">
+                <div class="input-text clearFix">
+                  <span></span>
+                  <input
+                    type="text"
+                    placeholder="邮箱/用户名/手机号"
+                    v-model="user.phone"
+                  />
+                  <p>{{ errors[0] }}</p>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="passs" v-slot="{ errors }">
+                <div class="input-text clearFix">
+                  <span class="pwd"></span>
+                  <input
+                    type="text"
+                    placeholder="请输入密码"
+                    v-model="user.password"
+                  />
+                  <p>{{ errors[0] }}</p>
+                </div>
+              </ValidationProvider>
+              <div class="setting clearFix">
+                <label class="checkbox inline">
+                  <input name="m1" type="checkbox" value="2" checked="" />
+                  自动登录
+                </label>
+                <span class="forget">忘记密码？</span>
+              </div>
+              <button class="btn">登&nbsp;&nbsp;录</button>
+            </form>
+
+            <div class="call clearFix">
+              <ul>
+                <li><img src="./images/qq.png" alt="" /></li>
+                <li><img src="./images/sina.png" alt="" /></li>
+                <li><img src="./images/ali.png" alt="" /></li>
+                <li><img src="./images/weixin.png" alt="" /></li>
+              </ul>
+              <router-link class="register" to="/register"
+                >立即注册</router-link
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- 底部 -->
+    <div class="copyright">
+      <ul>
+        <li>关于我们</li>
+        <li>联系我们</li>
+        <li>联系客服</li>
+        <li>商家入驻</li>
+        <li>营销中心</li>
+        <li>手机尚品汇</li>
+        <li>销售联盟</li>
+        <li>尚品汇社区</li>
+      </ul>
+      <div class="address">地址：北京市昌平区宏福科技园综合楼6层</div>
+      <div class="beian">京ICP备19006430号</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { reqLogin } from "../../api/users";
+import { ValidationProvider, extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+extend("required", {
+  ...required,
+  message: "请填入手机号~~",
+});
+
 export default {
   name: "Login",
-  methods: {
-    login() {
-      reqLogin("13700000000", "111111")
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+  data() {
+    return {
+      user: {
+        phone: "",
+        password: "",
+      },
+    };
+  },
+  components: {
+    ValidationProvider,
   },
 };
 </script>
 
 <style lang="less" scoped>
-.login-warp {
-  width: 100%;
-  min-width: 1200px;
-  background-color: #e93854;
-}
-.login {
-  background: url("./images/loginbg.png") no-repeat;
-  width: 1200px;
-  height: 487px;
-  margin: 0 auto;
-  position: relative;
-}
-.login-form-outer {
-  width: 420px;
-  height: 406px;
-  background-color: #fff;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  padding: 20px;
-  box-sizing: border-box;
-  // border: 1px solid pink;
-}
-.login-form {
-  height: 366px;
-  border: 1px solid pink;
-}
-.login-type {
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  display: flex;
-  li {
-    width: 240px;
-    &.active {
-      color: #e93854;
-      border-bottom: 1px solid pink;
-      border-left: 1px solid pink;
+.login-container {
+  .login-wrap {
+    height: 487px;
+    background-color: #e93854;
+    min-width: 1200px;
+    .login {
+      width: 1200px;
+      height: 487px;
+      margin: 0 auto;
+      background: url(./images/loginbg.png) no-repeat;
+    }
+
+    .loginform {
+      width: 420px;
+      height: 406px;
+      box-sizing: border-box;
+      background: #fff;
+      float: right;
+      top: 45px;
+      position: relative;
+      padding: 20px;
+
+      .tab {
+        li {
+          width: 50%;
+          float: left;
+          text-align: center;
+
+          a {
+            width: 100%;
+            display: block;
+            height: 50px;
+            line-height: 50px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            text-decoration: none;
+          }
+
+          .current {
+            border-bottom: none;
+            border-top-color: #28a3ef;
+            color: #e1251b;
+          }
+        }
+      }
+
+      .content {
+        width: 380px;
+        height: 316px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-top: none;
+        padding: 18px;
+
+        form {
+          margin: 15px 0 18px 0;
+          font-size: 12px;
+          line-height: 18px;
+
+          .input-text {
+            margin-bottom: 16px;
+
+            span {
+              float: left;
+              width: 37px;
+              height: 32px;
+              border: 1px solid #ccc;
+              background: url(./images/icons.png) no-repeat -10px -201px;
+              box-sizing: border-box;
+              border-radius: 2px 0 0 2px;
+            }
+
+            .pwd {
+              background-position: -72px -201px;
+            }
+
+            input {
+              width: 302px;
+              height: 32px;
+              box-sizing: border-box;
+              border: 1px solid #ccc;
+              border-left: none;
+              float: left;
+              padding-top: 6px;
+              padding-bottom: 6px;
+              font-size: 14px;
+              line-height: 22px;
+              padding-right: 8px;
+              padding-left: 8px;
+
+              border-radius: 0 2px 2px 0;
+              outline: none;
+            }
+          }
+
+          .setting {
+            label {
+              float: left;
+            }
+
+            .forget {
+              float: right;
+            }
+          }
+
+          .btn {
+            background-color: #e1251b;
+            padding: 6px;
+            border-radius: 0;
+            font-size: 16px;
+            font-family: 微软雅黑;
+            word-spacing: 4px;
+            border: 1px solid #e1251b;
+            color: #fff;
+            width: 100%;
+            height: 36px;
+            margin-top: 25px;
+            outline: none;
+          }
+        }
+
+        .call {
+          margin-top: 30px;
+
+          ul {
+            float: left;
+
+            li {
+              float: left;
+              margin-right: 5px;
+            }
+          }
+
+          .register {
+            float: right;
+            font-size: 15px;
+            line-height: 38px;
+          }
+
+          .register:hover {
+            color: #4cb9fc;
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
-  li:hover {
-    color: rgb(79, 76, 212) !important;
+
+  .copyright {
+    width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 24px;
+
+    ul {
+      li {
+        display: inline-block;
+        border-right: 1px solid #e4e4e4;
+        padding: 0 20px;
+        margin: 15px 0;
+      }
+    }
   }
-}
-.login-news {
-  margin: 20px;
-  height: 276px;
-  // border: 1px solid pink;
-}
-.login-phone {
-  margin-top: 40px;
-  display: flex;
-  border: 1px solid pink;
-  border-radius: 3px;
-  i {
-    width: 37px;
-    height: 32px;
-    border-right: 1px solid pink;
-    background-image: url(./images/icons.png);
-    background-position: -10px -201px;
-  }
-input{
-  width: 100%;
-  padding-left: 10px;
-  outline: none;
-  border: none;
-}
-}
-.login-password {
-  display: flex;
-  border: 1px solid pink;
-  border-radius: 3px;
-  margin-top: 20px;
-  i {
-    width: 37px;
-    height: 32px;
-    border-right: 1px solid pink;
-    background-image: url(./images/icons.png);
-    background-position: -72px -201px;
-  }
-input{
-  width: 100%;
-  padding-left: 10px;
-  outline: none;
-  border: none;
-}
-}
-.login-automatic{
-  height: 18px;
-  line-height: 18px;
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-}
-button{
-  width: 100%;
-  height: 40px;
-  font-size: 18px;
-  color: #fff;
-  background-color: #e93854;
-  border: none;
-  outline: none;
-}
-.login-register{
-  margin-top: 20px;
-  height: 38px;
-  text-align: right;
-  font-size: 16px;
 }
 </style>

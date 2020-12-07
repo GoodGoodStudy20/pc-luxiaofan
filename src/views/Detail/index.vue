@@ -352,8 +352,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import ImageList from "./ImageList/ImageList";
-import Zoom from "./Zoom/Zoom";
+import ImageList from "./ImageList";
+import Zoom from "./Zoom";
 import SortNav from "../../components/SortNav";
 
 export default {
@@ -368,29 +368,32 @@ export default {
     ...mapGetters(["skuInfo", "categoryView", "spuSaleAttrList"]),
   },
   methods: {
-    ...mapActions(["getProductDetail","reqGetAddToCart"]),
+    ...mapActions(["getProductDetail", "updateCartCount"]),
     //更新选中的下标。。
     updateCurrentImgIndex(index) {
       this.currentImgIndex = index;
     },
     //添加到购物车
-   async addCart() {
-     await this.reqGetAddToCart({
-        skuId: this.skuId,
-        skuNum: this.skuNum,
-      });
-      this.$router.push(`/shopcart`)
+    async addCart() {
+      try {
+        await this.updateCartCount({
+          skuId: this.skuInfo.id,
+          skuNum: this.skuNum,
+        });
+        this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`);
+      } catch (e) {
+        console.log(e);
+      }}
     },
-  },
-  mounted() {
-    this.getProductDetail(this.$route.params.id);
-    console.log(this.spuSaleAttrList);
-  },
-  components: {
-    ImageList,
-    Zoom,
-    SortNav,
-  },
+    mounted() {
+      this.getProductDetail(this.$route.params.id);
+      console.log(this.spuSaleAttrList);
+    },
+    components: {
+      ImageList,
+      Zoom,
+      SortNav,
+    },
 };
 </script>
 

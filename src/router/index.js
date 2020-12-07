@@ -7,6 +7,7 @@ import Register from "../views/Register"
 import Search from "../views/Search"
 import Detail from "../views/Detail"
 import ShopCart from "../views/ShopCart"
+import AddCartSuccess from "../views/AddCartSuccess"
 
 const push = VueRouter.prototype.push
 const replace = VueRouter.prototype.replace
@@ -59,6 +60,11 @@ export default new VueRouter( {
             name: "shopcart",
             path: "/shopcart",
             component: ShopCart,
+        },
+        {
+            name: "addcartsuccess",
+            path: "/addcartsuccess",
+            component: AddCartSuccess,
         },
     ],
     scrollBehavior () {
