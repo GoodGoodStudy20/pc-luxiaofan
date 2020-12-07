@@ -14,7 +14,7 @@
           </ul>
 
           <div class="content">
-            <form action="##">
+            <form @submit.prevent="submit">
               <ValidationProvider rules="required" v-slot="{ errors }">
                 <div class="input-text clearFix">
                   <span></span>
@@ -23,10 +23,10 @@
                     placeholder="邮箱/用户名/手机号"
                     v-model="user.phone"
                   />
-                  <p>{{ errors[0] }}</p>
+                  <p :style="{ color: 'red' }">{{ errors[0] }}</p>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="passs" v-slot="{ errors }">
+              <ValidationProvider rules="pass" v-slot="{ errors }">
                 <div class="input-text clearFix">
                   <span class="pwd"></span>
                   <input
@@ -34,7 +34,7 @@
                     placeholder="请输入密码"
                     v-model="user.password"
                   />
-                  <p>{{ errors[0] }}</p>
+                  <p :style="{ color: 'red' }">{{ errors[0] }}</p>
                 </div>
               </ValidationProvider>
               <div class="setting clearFix">
@@ -44,7 +44,7 @@
                 </label>
                 <span class="forget">忘记密码？</span>
               </div>
-              <button class="btn">登&nbsp;&nbsp;录</button>
+              <button class="btn" type="submit">登&nbsp;&nbsp;录</button>
             </form>
 
             <div class="call clearFix">
@@ -83,6 +83,7 @@
 <script>
 import { ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+import { mapState } from "vuex";
 extend("required", {
   ...required,
   message: "请填入手机号~~",
@@ -96,7 +97,37 @@ export default {
         phone: "",
         password: "",
       },
+      isLoading: false,
+      isAutoLogin: true,
     };
+  },
+  computed: {
+    ...mapState({
+      name: (state) => state.user.name,
+      token: (state) => state.user.token,
+    }),
+  },
+  created(){
+    if(this.token){
+      this.$router.replace("/")
+    }
+  },
+  methods: {
+    async submit() {
+      try {
+        if (this.isLoading) return;
+        this.isLoading = true;
+        const { phone, password } = this.user;
+        await this.$store.dispatch("login", { phone, password });
+        if(this.isAutoLogin){
+          localStorage.setItem("token",this.token)
+          localStorage.setItem("name",this.name)
+        }
+        this.$router.push("/");
+      } catch {
+        this.isLoading = false;
+      }
+    },
   },
   components: {
     ValidationProvider,

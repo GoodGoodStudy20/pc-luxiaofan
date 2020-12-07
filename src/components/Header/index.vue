@@ -4,7 +4,11 @@
       <div class="container-list">
         <div class="login-list">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="this.$store.state.user.token">
+            <span>欢迎</span>
+            <span>{{this.$store.state.user.name}}</span>
+          </p>
+          <p v-else>
             <span>请</span>
             <router-link to="/login" class="login-list-login">登录</router-link>
             <router-link to="/register" class="login-list-register"

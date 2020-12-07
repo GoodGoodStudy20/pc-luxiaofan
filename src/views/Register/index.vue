@@ -5,7 +5,7 @@
       <h3>
         注册新用户
         <span class="go"
-          >我有账号，去 <a href="login.html" target="_blank">登陆</a>
+          >我有账号，去 <router-link to="/login" >登陆</router-link>
         </span>
       </h3>
       <div class="content">
@@ -60,7 +60,7 @@
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="btn">
-        <button @click="register">完成注册</button>
+        <button @click="submit">完成注册</button>
       </div>
     </div>
 
@@ -124,30 +124,44 @@ export default {
   },
   methods: {
     //刷新验证码
-    refresh(e) {
-      e.target.src = "http://182.92.128.115/api/user/passport/code";
-      console.log(e.target);
+    refresh() {
+      this.$refs.code.src = "http://182.92.128.115/api/user/passport/code";
+      // console.log(e.target);
     },
-    register() {
+    async submit() {
+      try{//1.收集表单的数据
       const { phone, password, rePassword, code, isAgree } = this.user;
+      //2.进行正则校验
+      //判断是否同意协议
       if (!isAgree) {
         this.$message.error("请同意用户协议");
         return;
       }
+      //判断输入电话号码
       if (!phone) {
         this.$message.error("请输入电话号码");
         return;
       }
+      //判断输入验证码
       if (!code) {
         this.$message.error("请输入验证码");
         return;
       }
+      //判断输入密码两次是否一致
       if (password !== rePassword) {
         this.$message.error("两次密码输入不一样");
         return;
       }
-      this.$router.push("/login");
-    },
+      //3.发送请求注册
+      await this.$store.dispatch("register", { phone, password, code });
+
+      // 4.注册成功跳转到登录页面
+      this.$router.push("/login");}catch{
+        this.user.password=""
+        this.user.rePassword=""
+        this.refresh()
+      }
+    }
   },
   components: {
     ValidationProvider,

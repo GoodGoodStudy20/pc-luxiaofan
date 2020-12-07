@@ -17,7 +17,7 @@ export const reqLogin = (phone,password) => {
 export const reqRegister = ( { phone, password,code }) => {
     return request( {
         method: "POST",
-        url: "/user/passport/registern",
+        url: "/user/passport/register",
         //post请求，参数在data里面
         data: {
             phone,
