@@ -1,4 +1,5 @@
 <template>
+<!-- 轮播图组件，swiper -->
   <div class="swiper-container" ref="swiper">
     <div class="swiper-wrapper">
       <!-- 页面遍历 -->
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+//引入swiper
 import Swiper, { Navigation, Pagination, Autoplay } from "swiper";
 import "swiper/swiper-bundle.css";
 Swiper.use([Navigation, Pagination, Autoplay]);

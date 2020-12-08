@@ -29,7 +29,6 @@
           </li>
           <li class="cart-list-con5">
             <button
-              href="javascript:void(0)"
               class="mins"
               :disabled="cart.skuNum === 1"
               @click="updateSkuNum(cart.skuId, -1, cart.skuNum)"
@@ -49,7 +48,7 @@
               href="javascript:void(0)"
               class="plus"
               :disabled="cart.skuNum === 10"
-              @click="updateSkuNum(cart.skuId, 1, cart.skuNum)"
+              @click="(cart.skuId, 1, cart.skuNum)"
             >
               +
             </button>
@@ -85,7 +84,7 @@
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <button class="sum-btn" @click="submit">结算</button>
         </div>
       </div>
     </div>
@@ -93,18 +92,22 @@
 </template>
 
 <script>
+//引入vuex管理数据
 import { mapState, mapActions } from "vuex";
 export default {
   name: "ShopCart",
   computed: {
+    //计算属性，获取数据
     ...mapState({
       cartList: (state) => state.shopcart.cartList,
     }),
+    //获得商品的总数
     total() {
       return this.cartList
         .filter((cart) => cart.isChecked)
         .reduce((p, c) => p + c.skuNum, 0);
     },
+    //获得商品总价
     totalPrice() {
       return this.cartList
         .filter((cart) => cart.isChecked)
@@ -113,24 +116,35 @@ export default {
   },
   methods: {
     ...mapActions(["getCartList", "updateCartCount"]),
+    //更新商品数量，vuex数据可以直接刷新
     async updateSkuNum(skuId, skuNum) {
       await this.updateCartCount({ skuId, skuNum });
     },
+    //输入框输入数字。失去焦点时，获取更新数据。
     update(skuId, skuNum, e) {
       if (e.target.value === skuNum) return;
       this.updateCartCount({ skuId, skuNum: e.target.value - skuNum });
     },
+    //验证输入内容，设置库存上下限
     formatSkuNum(e) {
+      //替换输入的里面内容，不能输入非数字
       let skuNum = +e.target.value.replace(/\D+/g, "");
+      //如果输入数小于1就等于1
       if (skuNum < 1) {
         skuNum = 1;
+        //输入数最大值为10
       } else if (skuNum > 10) {
         skuNum = 10;
       }
+      //修改的值赋值给当前输入框
       e.target.value = skuNum;
     },
+    submit(){
+      this.$router.push("/trade")
+    }
   },
   mounted() {
+    //一进入页面获取数据
     this.getCartList();
   },
 };
@@ -346,6 +360,9 @@ export default {
           font-family: "Microsoft YaHei";
           background: #e1251b;
           overflow: hidden;
+          border: none;
+          outline: none;
+          border-radius: 5px;
         }
       }
     }

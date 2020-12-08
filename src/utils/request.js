@@ -1,5 +1,6 @@
 //封装axios拦截器
 import axios from "axios"
+import store from "../store"
 import getUserTempId from "./getUserTempId"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
@@ -21,6 +22,10 @@ instance.interceptors.request.use(
         //   config.headers.token = token;
         // }
         NProgress.start();
+        const token = store.state.user.token
+        if ( token ) {
+            config.headers.token = token
+        }
         config.headers.userTempId = userTempId
         return config
         // 初始化Promise.resolve()返回默认成功的Promise，只会触发成功的回调

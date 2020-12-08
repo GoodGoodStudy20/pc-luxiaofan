@@ -1,5 +1,6 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
+import store from "../store"
 
 import Home from "../views/Home"
 import Login from "../views/Login"
@@ -8,6 +9,10 @@ import Search from "../views/Search"
 import Detail from "../views/Detail"
 import ShopCart from "../views/ShopCart"
 import AddCartSuccess from "../views/AddCartSuccess"
+import Center from "../views/Center"
+import Pay from "../views/Pay"
+import PaySuccess from "../views/PaySuccess"
+import Trade from "../views/Trade"
 
 const push = VueRouter.prototype.push
 const replace = VueRouter.prototype.replace
@@ -26,7 +31,7 @@ VueRouter.prototype.replace = function ( location, onComplete, onAbout ) {
 }
 Vue.use( VueRouter )
 
-export default new VueRouter( {
+const router = new VueRouter( {
     routes: [
         {
             path: "/",
@@ -66,6 +71,26 @@ export default new VueRouter( {
             path: "/addcartsuccess",
             component: AddCartSuccess,
         },
+        {
+            name: "center",
+            path: "/center",
+            component: Center,
+        },
+        {
+            name: "pay",
+            path: "/pay",
+            component: Pay,
+        },
+        {
+            name: "paysuccess",
+            path: "/paysuccess",
+            component: PaySuccess,
+        },
+        {
+            name: "trade",
+            path: "/trade",
+            component: Trade,
+        },
     ],
     scrollBehavior () {
         return {
@@ -73,3 +98,12 @@ export default new VueRouter( {
         }
     }
 } )
+const permissionPaths = [ "/pay", "/paysuccess", "/trade", "/center" ]
+router.beforeEach( ( to, from, next ) => {
+    if ( permissionPaths.indexOf( to.path ) > -1 && !store.state.user.token ) {
+        return next( "/login" )
+    }
+    next()
+} )
+
+export default router

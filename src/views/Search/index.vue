@@ -158,6 +158,7 @@ export default {
     /* ...mapState({
   productList:(state)=>state.search.productList
 }) */
+//监视属性，获取数据
     ...mapGetters(["trademarkList", "attrsList", "goodsList", "total"]),
   },
   methods: {
@@ -187,6 +188,7 @@ export default {
       //发送请求数据时传入数据
       this.getProductList(options);
     },
+    //删除关键字，跳转到search页面
     delKeyword() {
       this.$bus.$emit("clearKeyword");
       this.options.keyword = "";
@@ -204,6 +206,7 @@ export default {
     },
     //添加品牌数据
     addTrademark(trademark) {
+      if (this.options.trademark) return;
       this.options.trademark = trademark;
       this.updateProductList();
     },
@@ -213,6 +216,7 @@ export default {
       this.updateProductList();
     },
     addprops(prop) {
+      if (this.options.props.indexOf(prop) > -1) return;
       this.options.props.push(prop);
       this.updateProductList();
     },
