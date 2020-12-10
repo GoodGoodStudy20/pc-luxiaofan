@@ -66,7 +66,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" />
+        <input class="chooseAll" type="checkbox" @click="AllChecked" v-model="isAllChecked"/>
         <span>全选</span>
       </div>
       <div class="option">
@@ -96,6 +96,12 @@
 import { mapState, mapActions } from "vuex";
 export default {
   name: "ShopCart",
+  data(){
+    return{
+      isChecked:true,
+      isAllChecked:false
+    }
+  },
   computed: {
     //计算属性，获取数据
     ...mapState({
@@ -115,7 +121,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getCartList", "updateCartCount"]),
+    ...mapActions(["getCartList", "updateCartCount","getCheckCart"]),
     //更新商品数量，vuex数据可以直接刷新
     async updateSkuNum(skuId, skuNum) {
       await this.updateCartCount({ skuId, skuNum });
@@ -138,6 +144,17 @@ export default {
       }
       //修改的值赋值给当前输入框
       e.target.value = skuNum;
+    },
+    async AllChecked(skuId,isChecked){
+       const result=this.cartList.filter( cart=>!cart.isChecked)
+     if(result){
+       this.cart.isChecked=true
+        this.isAllChecked=true
+
+      }
+      console.log(skuId,isChecked);
+      // await this.getCheckCart({skuId,isChecked})
+
     },
     submit(){
       this.$router.push("/trade")

@@ -1,7 +1,7 @@
 import {
     reqGetCartList,
     reqUpdateCartCount,
-    // reqGetCheckCart,
+    reqGetCheckCart,
     // reqGetDeleteCart
 } from "../../api/shopcart"
 
@@ -17,13 +17,13 @@ export default {
         },
         async updateCartCount ( { commit }, { skuId, skuNum
         } ) {
-            await reqUpdateCartCount( skuId, skuNum  )
+            await reqUpdateCartCount( skuId, skuNum )
             commit( "UPDATE_CART_COUNT", { skuId, skuNum } )
         },
-        // async getCartList ( { commit } ) {
-        //     const cartList = await reqGetCartList()
-        //     commit( "GET_CARTLIST", cartList )
-        // },
+        async getCheckCart ( { commit }, { skuId, isChecked } ) {
+            await reqGetCheckCart()
+            commit( "GET_CHECK_CART", { skuId, isChecked } )
+        },
         // async getCartList ( { commit } ) {
         //     const cartList = await reqGetCartList()
         //     commit( "GET_CARTLIST", cartList )
@@ -41,5 +41,13 @@ export default {
                 return cart
             } )
         },
+        GET_CHECK_CART ( state, { skuId, isChecked } ) {
+            state.cartList = state.cartList.map( ( cart ) => {
+                if ( cart.skuId === skuId ) {
+                    cart.isChecked === isChecked
+                }
+                return cart
+            })
+        }
     },
 }

@@ -1,7 +1,7 @@
 import request from "../utils/request"
 
 //登录接口
-export const reqLogin = (phone,password) => {
+export const reqLogin = ( phone, password ) => {
     return request( {
         method: "POST",
         url: "/user/passport/login",
@@ -14,7 +14,7 @@ export const reqLogin = (phone,password) => {
 }
 
 //注册接口
-export const reqRegister = ( { phone, password,code }) => {
+export const reqRegister = ( { phone, password, code } ) => {
     return request( {
         method: "POST",
         url: "/user/passport/register",

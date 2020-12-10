@@ -5,7 +5,7 @@
       <h3>
         注册新用户
         <span class="go"
-          >我有账号，去 <router-link to="/login" >登陆</router-link>
+          >我有账号，去 <router-link to="/login">登陆</router-link>
         </span>
       </h3>
       <div class="content">
@@ -17,6 +17,7 @@
             v-model="user.phone"
           />
           <span class="error-msg">{{ errors[0] }}</span>
+          <button>验证号码是否被注册</button>
         </ValidationProvider>
       </div>
       <div class="content">
@@ -60,7 +61,7 @@
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="btn">
-        <button @click="submit">完成注册</button>
+        <Button @click="submit">完成注册</Button>
       </div>
     </div>
 
@@ -85,6 +86,7 @@
 <script>
 import { ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+import Button from "../../components/Button"
 extend("required", {
   ...required,
   message: "请填入手机号~",
@@ -129,42 +131,46 @@ export default {
       // console.log(e.target);
     },
     async submit() {
-      try{//1.收集表单的数据
-      const { phone, password, rePassword, code, isAgree } = this.user;
-      //2.进行正则校验
-      //判断是否同意协议
-      if (!isAgree) {
-        this.$message.error("请同意用户协议");
-        return;
-      }
-      //判断输入电话号码
-      if (!phone) {
-        this.$message.error("请输入电话号码");
-        return;
-      }
-      //判断输入验证码
-      if (!code) {
-        this.$message.error("请输入验证码");
-        return;
-      }
-      //判断输入密码两次是否一致
-      if (password !== rePassword) {
-        this.$message.error("两次密码输入不一样");
-        return;
-      }
-      //3.发送请求注册
-      await this.$store.dispatch("register", { phone, password, code });
 
-      // 4.注册成功跳转到登录页面
-      this.$router.push("/login");}catch{
-        this.user.password=""
-        this.user.rePassword=""
-        this.refresh()
+      try {
+        //1.收集表单的数据
+        const { phone, password, rePassword, code, isAgree } = this.user;
+        //2.进行正则校验
+        //判断是否同意协议
+        if (!isAgree) {
+          this.$message.error("请同意用户协议");
+          return;
+        }
+        //判断输入电话号码
+        if (!phone) {
+          this.$message.error("请输入电话号码");
+          return;
+        }
+        //判断输入验证码
+        if (!code) {
+          this.$message.error("请输入验证码");
+          return;
+        }
+        //判断输入密码两次是否一致
+        if (password !== rePassword) {
+          this.$message.error("两次密码输入不一样");
+          return;
+        }
+        //3.发送请求注册
+        await this.$store.dispatch("register", { phone, password, code });
+
+        // 4.注册成功跳转到登录页面
+        this.$router.push("/login");
+      } catch {
+        this.user.password = "";
+        this.user.rePassword = "";
+        this.refresh();
       }
-    }
+    },
   },
   components: {
     ValidationProvider,
+    Button
   },
 };
 </script>

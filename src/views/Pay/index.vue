@@ -17,7 +17,7 @@
           >
           <span class="fr"
             ><em class="lead">应付金额：</em
-            ><em class="orange money">￥17,654</em></span
+            ><em class="orange money">￥{{ trade.totalAmount }}</em></span
           >
         </div>
       </div>
@@ -94,9 +94,14 @@
 
 <script>
 import QRCode from "qrcode";
-import { reqQrCode } from "../../api/trade";
+import { reqQrCode, reqOrderTrade } from "../../api/trade";
 export default {
   name: "Pay",
+  data() {
+    return {
+      trade: {},
+    };
+  },
   methods: {
     async submit() {
       const result = await reqQrCode(this.$route.query.orderId);
@@ -134,6 +139,11 @@ export default {
           this.$message.error("支付遇到了问题，请重新试试");
         });
     },
+  },
+  async mounted() {
+    const trade = await reqOrderTrade();
+    this.trade = trade;
+    console.log(trade);
   },
 };
 </script>

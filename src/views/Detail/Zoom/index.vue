@@ -3,23 +3,55 @@
     <!-- 中图 -->
     <img :src="imgUrl" />
     <!-- 和中图一样大小的div -->
-    <div class="event"></div>
+    <div class="event" @mousemove.prevent="move($event)" ref="event"></div>
     <!-- 大图 -->
-    <div class="big">
-      <img :src="bigImgUrl" />
+    <div class="big" >
+      <img :src="bigImgUrl" :style="{top:topLgImg+'px',left:leftLgImg+'px'}"/>
     </div>
     <!-- 绿色的遮罩层 -->
-    <div class="mask"></div>
+    <div
+      class="mask" ref="mask" :style="{top:top+'px',left:left+'px'}"
+    ></div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Zoom",
+  data() {
+    return {
+      left: 0, //marks左移位置
+      top: 0, //marks下移位置
+      leftLgImg: 0, //大图lgImg移动的位置
+      topLgImg: 0, //大图lgImg移动的位置
+    };
+  },
   props: {
     imgUrl: String,
     bigImgUrl: String,
   },
+  methods:{
+    move(e){
+      let marksWidth=this.$refs.mask.clientWidth/2
+      let marksHeight=this.$refs.mask.clientHeight/2
+      this.left=e.offsetX-marksWidth/2;
+      this.top=e.offsetY-marksHeight/2;
+      let width=this.$refs.mask.clientWidth
+      let height=this.$refs.mask.clientHeight
+      if(this.left<0){
+                    this.left=0;
+                }else if(this.left>width){
+                    this.left=width;
+                }
+                if(this.top<0){
+                    this.top=0;
+                }else if(this.top>height){
+                    this.top=height;
+                }
+                this.leftLgImg=-this.left*2;
+                this.topLgImg=-this.top*2;
+    }
+  }
 };
 </script>
 

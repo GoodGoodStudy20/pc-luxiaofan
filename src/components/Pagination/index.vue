@@ -67,6 +67,17 @@ export default {
       myCurrentPage: this.currentPage,
     };
   },
+  watch: {
+    // 让每次页码发生变化加载新数据
+    myCurrentPage(currentPage) {
+      // this.$listeners['current-change'](currentPage);
+      this.$emit("current-change", currentPage);
+    },
+    // 当外面页面发生变化，里面页面也要变化
+    currentPage(currentPage) {
+      this.myCurrentPage = currentPage;
+    },
+  },
   computed: {
     totalPages() {
       return Math.ceil(this.total / this.pageSize);

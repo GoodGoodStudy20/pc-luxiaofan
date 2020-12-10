@@ -7,4 +7,4 @@ Vue.use( CarouselItem )
 Vue.use( Pagination )
 Vue.use( InputNumber )
 Vue.prototype.$message = Message
-Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$alert = MessageBox.alert; 

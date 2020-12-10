@@ -102,6 +102,7 @@
             :page-size="5"
             :pager-count="7"
             :current-page="options.pageNo"
+            @current-change="handleCurrentChange"
           />
           <!-- <div class="block">
             <el-pagination
